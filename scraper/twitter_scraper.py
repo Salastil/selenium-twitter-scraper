@@ -212,8 +212,8 @@ class Twitter_Scraper:
             sleep(3)
 
             self._input_username()
-            self._input_unusual_activity()
             self._input_password()
+            self._input_unusual_activity()
 
             cookies = self.driver.get_cookies()
 
@@ -282,15 +282,17 @@ It may be due to the following:
             try:
                 unusual_activity = self.driver.find_element(
                     "xpath", "//input[@data-testid='ocfEnterTextTextInput']"
-                )
-                unusual_activity.send_keys(self.username)
+                )            
+                # Prompt for 2FA code input
+                two_fa_code = input("Enter 2FA code: ").strip()            
+                unusual_activity.send_keys(two_fa_code)
                 unusual_activity.send_keys(Keys.RETURN)
                 sleep(3)
                 break
             except NoSuchElementException:
                 input_attempt += 1
                 if input_attempt >= 3:
-                    break
+                  break
 
     def _input_password(self):
         input_attempt = 0
