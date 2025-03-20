@@ -23,7 +23,8 @@ class Tweet:
             self.user = card.find_element(
                 "xpath", './/div[@data-testid="User-Name"]//span'
             ).text
-        except NoSuchElementException:
+            self.user = raw_user.encode("utf-8", "ignore").decode("utf-8")
+        except (NoSuchElementException, UnicodeEncodeError, UnicodeDecodeError):
             self.error = True
             self.user = "skip"
 
@@ -66,7 +67,11 @@ class Tweet:
         )
 
         for index, content in enumerate(contents):
-            self.content += content.text
+            try:
+                text = content.text.encode("utf-8", "ignore").decode("utf-8")
+                self.content += text
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                continue
 
         try:
             self.reply_cnt = card.find_element(
