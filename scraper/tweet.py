@@ -134,10 +134,13 @@ class Tweet:
                 '(.//div[@data-testid="tweetText"])[1]/img[contains(@src, "emoji")]',
             )
 
-            self.emojis = [
-                emoji.get_attribute("alt").encode("unicode-escape").decode("ASCII")
-                for emoji in raw_emojis
-            ]
+            self.emojis = []
+            for emoji in raw_emojis:
+                try:
+                    escaped_emoji = emoji.get_attribute("alt").encode("unicode-escape").decode("ASCII")
+                    self.emojis.append(escaped_emoji)
+                except Exception:
+                    continue
         except NoSuchElementException:
             self.emojis = []
 
