@@ -20,7 +20,7 @@ class Tweet:
         self.tweet = None
 
         try:
-            self.user = card.find_element(
+            raw_user = card.find_element(
                 "xpath", './/div[@data-testid="User-Name"]//span'
             ).text
             self.user = raw_user.encode("utf-8", "ignore").decode("utf-8")
