@@ -143,8 +143,10 @@ def main():
             USER_PASSWORD = getpass.getpass("Enter Password: ")
 
         if HEADLESS_MODE is None:
-            HEADLESS_MODE - str(input("Headless?[Yes/No]")).lower()
-
+           headless_input = input("Headless? [True/False]: ").strip().lower()
+           HEADLESS_MODE = 'true' if headless_input == 'true' else 'false'
+        else:
+           HEADLESS_MODE = HEADLESS_MODE.strip().lower()
         print()
 
         tweet_type_args = []
